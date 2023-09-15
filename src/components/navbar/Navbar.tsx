@@ -3,7 +3,6 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
-import { signIn, signOut } from "next-auth/react";
 import { Menu, X } from 'lucide-react'
 
 const Navbar = () => {
