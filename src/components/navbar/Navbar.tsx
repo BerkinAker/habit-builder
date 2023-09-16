@@ -2,8 +2,9 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Menu, X } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 const Navbar = () => {
   const [hambuger, setHambuger] = useState(false);
@@ -26,10 +27,14 @@ const Navbar = () => {
       </div>
       <div className='hidden md:flex gap-14'>
         <Link href="/signup">
-          <Button variant="outline" className='border-[#FF5C00] rounded-3xl px-9 py-3'>Sign Up</Button>
+          <Button className={cn(buttonVariants({ variant: "outline", size: "lg" }),
+            "rounded-3xl border-solid border-[1px] border-[#FF5C00] text-black")}>
+            Sign Up
+          </Button>
         </Link>
         <Link href="/signin">
-          <Button variant="outline" className='bg-[#FF5C00] rounded-3xl text-white px-10 py-3'>Sign In</Button>
+          <Button className={cn(buttonVariants({ size: "lg" }),
+            "rounded-3xl text-white")}>Sign In</Button>
         </Link>
       </div>
 
