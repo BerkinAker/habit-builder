@@ -35,7 +35,6 @@ export default withAuth(
       );
     }
   },
-
   {
     callbacks: {
       async authorized() {
