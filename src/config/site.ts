@@ -14,5 +14,4 @@ export const siteConfig: SiteConfig = {
     "Portfolio",
     "FutureCv",
   ],
-
 }

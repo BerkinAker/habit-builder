@@ -44,7 +44,7 @@ const Navbar = () => {
         <X onClick={handleHambuger} className="text-[#FF5C00] h-12 w-12 cursor-pointer" />
         <ul className="flex flex-col gap-6 items-center absolute top-[20%] left-[50%] -translate-x-[50%] -translate-y-[20%]">
           <li className="ease-in-out duration-300 hover:text-[#FF5C00]">
-            <Link href="/">Sign up</Link>
+            <Link href="/signup">Sign up</Link>
           </li>
           <li>
             <Link className="ease-in-out duration-300 hover:text-[#FF5C00]" href="/" >Sign in</Link>
