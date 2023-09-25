@@ -47,7 +47,7 @@ function AuthNav({ children, items }: AuthNavProps) {
         <span className="font-bold">Menu</span>
       </button>
       {isMenuOpen && items && (
-        <MobileNav items={items}>
+        <MobileNav items={items} >
           {children}
         </MobileNav>
       )}
