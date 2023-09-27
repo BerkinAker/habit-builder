@@ -1,4 +1,4 @@
-# Resume builder
+# Habits builder
 
 ## Features
 

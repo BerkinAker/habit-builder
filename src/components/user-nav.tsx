@@ -21,7 +21,10 @@ export default function UserNav({ user }: UserNavProps) {
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <UserAvatarNav />
+          <UserAvatarNav user={{
+            name: user.name || null,
+            image: user.image || null,
+          }} />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <div className="flex justify-center items-center gap-2 p-2">
@@ -39,16 +42,16 @@ export default function UserNav({ user }: UserNavProps) {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-          className="cursor-pointer"
-          onSelect={(event: any) => {
-            event.preventDefault()
-            signOut({
-              callbackUrl: `${window.location.origin}/signin`,
-            })
-          }}
-        >
-          Sign out
-        </DropdownMenuItem>
+            className="cursor-pointer"
+            onSelect={(event: any) => {
+              event.preventDefault()
+              signOut({
+                callbackUrl: `${window.location.origin}`,
+              })
+            }}
+          >
+            Sign out
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

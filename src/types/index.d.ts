@@ -13,7 +13,7 @@ export type NavItem = {
 
 export type MainNavItem = NavItem
 
-export type SidebarNavItem = {
+export type DashboardSidebarNavItem = {
   title: string
   disabled?: boolean
   external?: boolean
@@ -31,5 +31,5 @@ export type SidebarNavItem = {
 
 export type DashboardConfig = {
   mainNav: MainNavItem[]
-  sidebarNav: SidebarNavItem[]
+  sidebarNav: DashboardSidebarNavItem[]
 }
