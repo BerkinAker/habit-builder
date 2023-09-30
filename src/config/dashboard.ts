@@ -17,12 +17,12 @@ export const dashboardConfig: DashboardConfig = {
     {
       title: "Posts",
       href: "/dashboard",
-      icon: "post",
+      icon: "book",
     },
     {
       title: "Pricing",
       href: "/dashboard/pricing",
-      icon: "pricing",
+      icon: "credit-card",
       disabled: true,
     },
     {

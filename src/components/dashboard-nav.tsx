@@ -2,9 +2,9 @@
 
 import { cn } from "@/lib/utils"
 import { DashboardSidebarNavItem } from "@/types"
-import { X } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import Icon from "./icon"
 
 interface DashboardNavProps {
   items: DashboardSidebarNavItem[]
@@ -27,7 +27,7 @@ export default function DashboardNav({ items }: DashboardNavProps) {
                 item.disabled && "cursor-not-allowed opacity-80",
                 item.href === path ? "bg-accent text-accent-foreground" : "transparent",
               )}>
-                <X size={18} color="#ff5c00" strokeWidth={2.5} className="mr-2"/>
+                <Icon name={item.icon} size={18} color="#ff5c00" strokeWidth={2.5} className="mr-2"/>
                 {item.title}
               </span>
             </Link>
