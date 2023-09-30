@@ -1,4 +1,5 @@
 import AuthNav from "@/components/auth-nav"
+import DashboardNav from "@/components/dashboard-nav"
 import UserNav from "@/components/user-nav"
 import { dashboardConfig } from "@/config/dashboard"
 import { getCurrentUser } from "@/lib/session"
@@ -27,6 +28,16 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
           }} />
         </div>
       </div>
+      {/* dashboard */}
+      <div className="container">
+        <aside className="hidden w-[200px] md:flex flex-col">
+          <DashboardNav items={dashboardConfig.sidebarNav}/>
+        </aside>
+        <main>
+          {children}
+        </main>
+      </div>
+      {/* footer */}
     </div>
   )
 }

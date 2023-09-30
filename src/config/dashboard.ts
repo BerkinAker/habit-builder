@@ -23,6 +23,7 @@ export const dashboardConfig: DashboardConfig = {
       title: "Pricing",
       href: "/dashboard/pricing",
       icon: "pricing",
+      disabled: true,
     },
     {
       title: "Settings",
