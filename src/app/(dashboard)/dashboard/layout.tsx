@@ -29,11 +29,11 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
         </div>
       </div>
       {/* dashboard */}
-      <div className="container">
+      <div className="container grid gap-12 md:grid-cols-[200px_1fr]">
         <aside className="hidden w-[200px] md:flex flex-col">
           <DashboardNav items={dashboardConfig.sidebarNav}/>
         </aside>
-        <main>
+        <main className="flex flex-col w-full flex-1">
           {children}
         </main>
       </div>
