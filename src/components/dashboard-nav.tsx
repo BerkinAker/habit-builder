@@ -9,6 +9,7 @@ import Icon from "./icon"
 interface DashboardNavProps {
   items: DashboardSidebarNavItem[]
 }
+
 export default function DashboardNav({ items }: DashboardNavProps) {
   const path = usePathname()
 

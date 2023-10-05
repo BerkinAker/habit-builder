@@ -22,7 +22,7 @@ const Dashboard = async () => {
 
   return (
     <Shell>
-      <DashboardHeader heading="Dashboard" text="Track your habits.">
+      <DashboardHeader heading="Dashboard" text="Track your progress.">
         <DateRangePicker />
       </DashboardHeader>
       <DashboardCard />

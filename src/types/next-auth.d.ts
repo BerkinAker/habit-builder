@@ -1,4 +1,4 @@
-import NextAuth from "next-auth"
+import { User } from "next-auth"
 import { JWT } from "next-auth/jwt"
 
 // We are extending the JWT and Session types from next-auth to add our own properties.
@@ -8,13 +8,13 @@ import { JWT } from "next-auth/jwt"
 
 type UserId = string
 
-declare module "next-auth" {
+declare module "next-auth/jwt" {
   interface JWT {
     id: UserId
   }
 }
 
-declare module "next-auth/jwt" {
+declare module "next-auth" {
   interface Session {
     user: User & {
       id: UserId
