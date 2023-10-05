@@ -1,4 +1,4 @@
-# Habits builder
+# Habit builder
 
 ## Features
 
