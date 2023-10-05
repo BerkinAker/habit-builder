@@ -1,3 +1,4 @@
+import DashboardCard from "@/components/dahsboard-card"
 import DashboardHeader from "@/components/dashboard-header"
 import { DateRangePicker } from "@/components/date-range-picker"
 import Shell from "@/components/layout/shell"
@@ -24,17 +25,9 @@ const Dashboard = async () => {
       <DashboardHeader heading="Dashboard" text="Track your habits.">
         <DateRangePicker />
       </DashboardHeader>
+      <DashboardCard />
     </Shell>
   )
 }
 
 export default Dashboard
-
-{/* <h1>Welcome to Dashboard</h1>
-      <div>
-        <Button onClick={() => signOut({
-          callbackUrl: `${window.location.origin}/signin`
-        })}>
-          Sign out
-        </Button>
-      </div> */}
