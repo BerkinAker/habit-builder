@@ -1,6 +1,7 @@
+import Link from "next/link";
 
 export default function EditHabit() {
   return (
-    <div>EditHabit</div>
+    <div><Link href="/dashboard">Back</Link></div>
   )
 }

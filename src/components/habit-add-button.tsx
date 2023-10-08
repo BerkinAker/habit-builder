@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useRouter } from "next/navigation"
 
-import { Button, ButtonProps } from "@/components/ui/button"
+import { Button, ButtonProps, buttonVariants } from "@/components/ui/button"
 import { Loader2, Plus } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -39,17 +39,21 @@ export default function HabitAddButton({ className, variant, ...props }: HabitCr
 
     const habit = await response.json()
 
-    router.push(`/edit/${habit.id}`)
     router.refresh()
+    router.push(`/edit/${habit.id}`)
   }
 
   return (
+    // buttonVariants should be at the top bcs it will override the className    
     <Button
       onClick={() => onClick()}
       className={cn(
-        { "cursor-not-allowed opacity-70": isLoading }
+        buttonVariants({ variant }),
+        { "cursor-not-allowed opacity-70": isLoading },
+        className
       )}
       disabled={isLoading}
+      {...props}
     >
       {isLoading ? (
         <Loader2 size={18} className="animate-spin mr-2" />
