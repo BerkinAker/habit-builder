@@ -17,12 +17,8 @@ export async function POST(req: Request) {
       return new Response("Unauthorized", { status: 403 })
     }
     const json = await req.json()
-    // console.log(json)
     const body = postCreateSchema.parse(json)
-    // console.log("-------------------")
-    // console.log(body)
-    // console.log("-------------------")
-    // console.log(session.user.id)
+
     const habit = await db.activity.create({
       data: {
         name: body.name,
@@ -37,7 +33,6 @@ export async function POST(req: Request) {
     return new Response(JSON.stringify(habit))
   }
   catch (error) {
-    console.log(error)
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
