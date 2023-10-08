@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth/next";
 import { z } from "zod";
 
 const postCreateSchema = z.object({
-  title: z.string(),
+  name: z.string(),
   description: z.string().optional(),
   category: z.string(),
 })
@@ -16,14 +16,16 @@ export async function POST(req: Request) {
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
-
-    const { user } = session
     const json = await req.json()
+    // console.log(json)
     const body = postCreateSchema.parse(json)
-
+    // console.log("-------------------")
+    // console.log(body)
+    // console.log("-------------------")
+    // console.log(session.user.id)
     const habit = await db.activity.create({
       data: {
-        name: body.title,
+        name: body.name,
         description: body.description,
         userId: session.user.id,
         category: body.category,
@@ -31,11 +33,11 @@ export async function POST(req: Request) {
       select: {
         id: true
       },
-    })
-
+    })  
     return new Response(JSON.stringify(habit))
   }
   catch (error) {
+    console.log(error)
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }

@@ -22,7 +22,7 @@ export default function HabitAddButton({ className, variant, ...props }: HabitCr
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: "New Habit",
+        name: "New Habit",
         category: "uncategorized",
       }),
     })
@@ -37,6 +37,7 @@ export default function HabitAddButton({ className, variant, ...props }: HabitCr
       // return toast.error("Something went wrong. Please try again.")
     }
 
+    console.log(response);
     const habit = await response.json()
 
     router.push(`/edit/${habit.id}`)
