@@ -29,6 +29,7 @@ export default async function Habits() {
       id: true,
       name: true,
       category: true,
+      description: true,
       createdAt: true,
       updatedAt: true,
     }
@@ -41,7 +42,7 @@ export default async function Habits() {
       </DashboardHeader>
       <div>
         {habits?.length ? (
-          <div>
+          <div className="divide-y divide-border border rounded-md">
             {habits.map((habit) => (
               <HabitItem key={habit.id} habit={habit} />
             ))}
@@ -55,7 +56,7 @@ export default async function Habits() {
             <Placeholder.Description>
               Get started by adding a new habit.
             </Placeholder.Description>
-            <HabitAddButton variant="outline" className="border-solid border-[1px] border-[#FF5C00] text-black"/>
+            <HabitAddButton variant="outline" className="border-solid border-[1px] border-[#FF5C00] text-black" />
           </Placeholder>
         )}
       </div>
