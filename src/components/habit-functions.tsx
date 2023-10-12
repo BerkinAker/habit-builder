@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Activity } from "@prisma/client"
 import { useRouter } from "next/navigation"
 import { Loader2, MoreHorizontal, Pencil, Trash2 } from "lucide-react"
+import { toast } from 'sonner';
 
 import {
   DropdownMenu,
@@ -34,9 +35,9 @@ async function deleteHabit(habitId: string) {
   })
 
   if (!response?.ok) {
-    // toast
+    toast('Something went wrong. Please try again.')
   } else {
-    // toast
+    toast('Your habit has been deleted successfully.')
   }
 
   return true

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { Button, ButtonProps, buttonVariants } from "@/components/ui/button"
 import { Loader2, Plus } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"
 
 interface HabitCreateButtonProps extends ButtonProps { }
 
@@ -34,8 +35,10 @@ export default function HabitAddButton({ className, variant, ...props }: HabitCr
       if (response.status === 402) {
         // return toast.error("You've reached your habit limit. Please upgrade your account to add more habits.")
       }
-      // return toast.error("Something went wrong. Please try again.")
+      toast("Something went wrong. Please try again.")
     }
+
+    toast("Your habit has been created successfully.")
 
     const habit = await response.json()
 
