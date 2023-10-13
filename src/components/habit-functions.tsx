@@ -1,11 +1,11 @@
 "use client"
 
 import * as React from "react"
-import Link from "next/link"
 import { Activity } from "@prisma/client"
 import { useRouter } from "next/navigation"
 import { Loader2, MoreHorizontal, Pencil, Trash2 } from "lucide-react"
 import { toast } from 'sonner';
+import HabitEditForm from "./habit-edit-form"
 
 import {
   DropdownMenu,
@@ -27,7 +27,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { set } from "date-fns"
 
 async function deleteHabit(habitId: string) {
   const response = await fetch(`/api/habits/${habitId}`, {
@@ -44,11 +43,14 @@ async function deleteHabit(habitId: string) {
 }
 
 interface HabitFunctionsProps {
-  habit: Pick<Activity, "id">
+  habit: Pick<Activity, "id" | "name" | "description" | "category">
 }
 
 export default function HabitFunctions({ habit }: HabitFunctionsProps) {
   const router = useRouter()
+  const [isEditLoading, setIsEditLoading] = React.useState<boolean>(false)
+  const [showEditModal, setShowEditModal] = React.useState<boolean>(false)
+
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
   const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false)
 
@@ -61,11 +63,14 @@ export default function HabitFunctions({ habit }: HabitFunctionsProps) {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem>
-            <Link href={`/edit/${habit.id}`} className="flex items-center w-full">
-              <Pencil size={18} className="mr-3" />
-              Edit
-            </Link>
+          <DropdownMenuItem onSelect={() => {
+            document.body.style.pointerEvents = ""
+            setShowEditModal(true)
+          }}
+            className="cursor-pointer"
+          >
+            <Pencil size={18} className="mr-3" />
+            Edit
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           {/* onSelect: Event handler called when the user selects an item (via mouse or keyboard). Source: https://www.radix-ui.com/primitives/docs/components/dropdown-menu#api-reference */}
@@ -79,6 +84,21 @@ export default function HabitFunctions({ habit }: HabitFunctionsProps) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {/* Edit Alert Dialog  */}
+      <AlertDialog open={showEditModal} onOpenChange={setShowEditModal}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Edit Habit</AlertDialogTitle>
+          </AlertDialogHeader>
+          <HabitEditForm
+            habit={{ id: habit.id, name: habit.name, description: habit.description, category: habit.category }}
+            setShowEditModal={setShowEditModal}
+          />
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Delete Alert Dialog */}
       <AlertDialog open={showDeleteModal} onOpenChange={setShowDeleteModal}>
         <AlertDialogContent>
           <AlertDialogHeader>

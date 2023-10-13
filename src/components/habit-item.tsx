@@ -23,11 +23,11 @@ export default function HabitItem({ habit }: HabitItemProps) {
         </div>
         {habit.description ? (
           <div>
-            <p className="text-sm text-muted-foreground">asdasd</p>
+            <p className="text-sm text-muted-foreground">{habit.description}</p>
           </div>
         ) : null}
       </div>
-      <HabitFunctions habit={{ id: habit.id }} />
+      <HabitFunctions habit={{ id: habit.id, name: habit.name, description: habit.description, category: habit.category}} />
     </div>
   )
 }
