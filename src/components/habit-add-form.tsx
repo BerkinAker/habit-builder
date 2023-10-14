@@ -11,34 +11,34 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-
 import { habitPatchSchema } from "@/lib/validations/habit";
-import { Label } from "@radix-ui/react-dropdown-menu";
-import { Textarea } from "./ui/textarea";
-import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "./ui/button";
-import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Button } from "./ui/button";
+import { Loader2 } from "lucide-react";
 import { AlertDialogCancel } from "./ui/alert-dialog";
+import { Textarea } from "./ui/textarea";
 
-interface HabitEditFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  habit: Pick<Activity, "id" | "name" | "description" | "category">
-  setShowEditModal: (active: boolean) => void
+interface HabitAddFormProps extends React.HTMLAttributes<HTMLFormElement> {
+  setShowAddModal: (active: boolean) => void
 }
 
 type Inputs = z.infer<typeof habitPatchSchema>
 
-export default function HabitEditForm({ habit, setShowEditModal, className, ...props }: HabitEditFormProps) {
+const defaultValues: Partial<Inputs> = {
+  name: "",
+  description: "",
+  category: "",
+}
+
+export default function HabitAddForm({ setShowAddModal, className, ...props }: HabitAddFormProps) {
   const form = useForm<Inputs>({
     resolver: zodResolver(habitPatchSchema),
-    defaultValues: {
-      name: habit.name,
-      description: habit.description || "",
-      category: habit.category,
-    },
+    defaultValues,
+    mode: "onChange"
   })
 
   const router = useRouter()
@@ -47,8 +47,8 @@ export default function HabitEditForm({ habit, setShowEditModal, className, ...p
   async function onSubmit(data: Inputs) {
     setIsSave(true)
 
-    const response = await fetch(`/api/habits/${habit.id}`, {
-      method: "PATCH",
+    const response = await fetch("/api/habits", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -60,13 +60,17 @@ export default function HabitEditForm({ habit, setShowEditModal, className, ...p
     })
 
     setIsSave(false)
-    setShowEditModal(false)
+    setShowAddModal(false)
 
-    if (!response.ok) {
-      toast("Your habit was not updated. Please try again.")
+    if (!response?.ok) {
+      // payment required
+      if (response.status === 402) {
+        // return toast.error("You've reached your habit limit. Please upgrade your account to add more habits.")
+      }
+      toast("Something went wrong. Please try again.")
     }
 
-    toast("Your habit was updated.")
+    toast("Your habit was created.")
 
     router.refresh()
   }
@@ -83,6 +87,7 @@ export default function HabitEditForm({ habit, setShowEditModal, className, ...p
               <FormControl>
                 <Input {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -98,6 +103,7 @@ export default function HabitEditForm({ habit, setShowEditModal, className, ...p
               <FormDescription>
                 This is the description of your habit.
               </FormDescription>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -110,6 +116,7 @@ export default function HabitEditForm({ habit, setShowEditModal, className, ...p
               <FormControl>
                 <Input {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

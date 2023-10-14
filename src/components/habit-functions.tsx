@@ -88,9 +88,6 @@ export default function HabitFunctions({ habit }: HabitFunctionsProps) {
       {/* Edit Alert Dialog  */}
       <AlertDialog open={showEditModal} onOpenChange={setShowEditModal}>
         <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Edit Habit</AlertDialogTitle>
-          </AlertDialogHeader>
           <HabitEditForm
             habit={{ id: habit.id, name: habit.name, description: habit.description, category: habit.category }}
             setShowEditModal={setShowEditModal}
@@ -108,7 +105,7 @@ export default function HabitFunctions({ habit }: HabitFunctionsProps) {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isDeleteLoading}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               disabled={isDeleteLoading}
               onClick={async (event) => {

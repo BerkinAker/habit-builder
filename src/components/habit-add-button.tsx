@@ -8,61 +8,48 @@ import { Loader2, Plus } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { toast } from "sonner"
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import HabitAddForm from "./habit-add-form"
+
 interface HabitCreateButtonProps extends ButtonProps { }
 
 export default function HabitAddButton({ className, variant, ...props }: HabitCreateButtonProps) {
   const router = useRouter()
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
-
-  async function onClick() {
-    setIsLoading(true)
-
-    const response = await fetch("/api/habits", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: "New Habit",
-        category: "uncategorized",
-      }),
-    })
-
-    setIsLoading(false)
-
-    if (!response?.ok) {
-      // payment required
-      if (response.status === 402) {
-        // return toast.error("You've reached your habit limit. Please upgrade your account to add more habits.")
-      }
-      toast("Something went wrong. Please try again.")
-    }
-
-    toast("Your habit has been created successfully.")
-
-    const habit = await response.json()
-
-    router.refresh()
-    router.push(`/edit/${habit.id}`)
-  }
+  const [showAddModal, setShowAddModal] = React.useState<boolean>(false)
 
   return (
-    // buttonVariants should be at the top bcs it will override the className    
-    <Button
-      onClick={() => onClick()}
-      className={cn(
-        buttonVariants({ variant }),
-        { "cursor-not-allowed opacity-70": isLoading },
-        className
-      )}
-      disabled={isLoading}
-      {...props}
-    >
-      {isLoading ? (
-        <Loader2 size={18} className="animate-spin mr-2" />
-      ) : <Plus size={18} className="mr-2" />
-      }
-      New habit
-    </Button>
+    <>
+      <Button
+        onClick={() => setShowAddModal(true)}
+        className={cn(
+          buttonVariants({ variant }),
+          { "cursor-not-allowed opacity-70": isLoading },
+          className
+        )}
+      >
+        {isLoading ? (
+          <Loader2 size={18} className="animate-spin mr-2" />
+        ) : <Plus size={18} className="mr-2" />
+        }
+        New habit
+      </Button>
+
+      <AlertDialog open={showAddModal} onOpenChange={setShowAddModal}>
+        <AlertDialogContent>
+          <HabitAddForm setShowAddModal={setShowAddModal} />
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   )
 }
