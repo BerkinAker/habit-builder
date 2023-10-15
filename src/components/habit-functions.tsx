@@ -11,7 +11,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
@@ -25,7 +24,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
 async function deleteHabit(habitId: string) {
@@ -43,7 +41,7 @@ async function deleteHabit(habitId: string) {
 }
 
 interface HabitFunctionsProps {
-  habit: Pick<Activity, "id" | "name" | "description" | "category">
+  habit: Pick<Activity, "id" | "name" | "description" | "category" | "habitCurrentValue" | "habitGoalValue" | "habitGoalUnit">
 }
 
 export default function HabitFunctions({ habit }: HabitFunctionsProps) {
@@ -62,7 +60,7 @@ export default function HabitFunctions({ habit }: HabitFunctionsProps) {
             <MoreHorizontal size={20} color="#001524" strokeWidth={1} />
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align="start">
           <DropdownMenuItem onSelect={() => {
             document.body.style.pointerEvents = ""
             setShowEditModal(true)
@@ -89,7 +87,7 @@ export default function HabitFunctions({ habit }: HabitFunctionsProps) {
       <AlertDialog open={showEditModal} onOpenChange={setShowEditModal}>
         <AlertDialogContent>
           <HabitEditForm
-            habit={{ id: habit.id, name: habit.name, description: habit.description, category: habit.category }}
+            habit={{ id: habit.id, name: habit.name, description: habit.description, category: habit.category, habitCurrentValue: habit.habitCurrentValue, habitGoalValue: habit.habitGoalValue, habitGoalUnit: habit.habitGoalUnit }}
             setShowEditModal={setShowEditModal}
           />
         </AlertDialogContent>

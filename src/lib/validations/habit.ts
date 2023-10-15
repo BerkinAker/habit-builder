@@ -9,9 +9,14 @@ export const habitPatchSchema = z.object({
   description: z.string().max(256, {
     message: "Description must be at most 256 characters long."
   }).optional(),
-  category: z.string().min(3, {
-    message: "Category must be at least 3 characters long.",
-  }).max(32, {
+  category: z.string().max(32, {
     message: "Category must be at most 32 characters long."
+  }).optional(),
+  habitGoalValue: z.coerce.number().min(1, {
+    message: "Habit goal value must be at least 1."
+  }).max(100, {
+    message: "Habit goal value must be at most 100."
   }),
-})
+  habitCurrentValue: z.number().default(0),
+  habitGoalUnit: z.string().default("times")
+});

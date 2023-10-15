@@ -6,7 +6,10 @@ import { z } from "zod";
 const postCreateSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
-  category: z.string(),
+  category: z.string().optional(),
+  habitGoalValue: z.number().default(1),
+  habitCurrentValue: z.number().default(0),
+  habitGoalUnit: z.enum(["times", "minutes"]).default("times"),
 })
 
 export async function POST(req: Request) {
@@ -25,6 +28,9 @@ export async function POST(req: Request) {
         description: body.description,
         userId: session.user.id,
         category: body.category,
+        habitGoalValue: body.habitGoalValue,
+        habitCurrentValue: body.habitCurrentValue,
+        habitGoalUnit: body.habitGoalUnit,
       },
       select: {
         id: true

@@ -30,6 +30,9 @@ export default async function Habits() {
       name: true,
       category: true,
       description: true,
+      habitCurrentValue: true,
+      habitGoalValue: true,
+      habitGoalUnit: true,
       createdAt: true,
       updatedAt: true,
     }

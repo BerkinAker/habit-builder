@@ -17,10 +17,11 @@ import { Input } from "@/components/ui/input"
 import { habitPatchSchema } from "@/lib/validations/habit";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import { AlertDialogCancel } from "./ui/alert-dialog";
 import { Textarea } from "./ui/textarea";
+import { cn } from "@/lib/utils";
 
 interface HabitAddFormProps extends React.HTMLAttributes<HTMLFormElement> {
   setShowAddModal: (active: boolean) => void
@@ -32,6 +33,9 @@ const defaultValues: Partial<Inputs> = {
   name: "",
   description: "",
   category: "",
+  habitGoalValue: 1,
+  habitGoalUnit: "times",
+  habitCurrentValue: 0,
 }
 
 export default function HabitAddForm({ setShowAddModal, className, ...props }: HabitAddFormProps) {
@@ -56,6 +60,9 @@ export default function HabitAddForm({ setShowAddModal, className, ...props }: H
         name: data.name,
         description: data.description,
         category: data.category,
+        habitGoalValue: data.habitGoalValue,
+        habitGoalUnit: data.habitGoalUnit,
+        habitCurrentValue: data.habitCurrentValue,
       }),
     })
 
@@ -91,6 +98,43 @@ export default function HabitAddForm({ setShowAddModal, className, ...props }: H
             </FormItem>
           )}
         />
+        <div className="flex gap-8">
+          <FormField
+            control={form.control}
+            name="habitGoalValue"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Goal</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="habitGoalUnit"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Goal Unit</FormLabel>
+                <FormControl>
+                  <select
+                    className={cn(
+                      buttonVariants({ variant: "outline" }),
+                      "w-[200px] appearance-none bg-transparent font-normal"
+                    )}
+                    {...field}
+                  >
+                    <option value="times">Times</option>
+                    <option value="minutes">Mins</option>
+                  </select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name="description"
@@ -103,19 +147,6 @@ export default function HabitAddForm({ setShowAddModal, className, ...props }: H
               <FormDescription>
                 This is the description of your habit.
               </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="category"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Category</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
               <FormMessage />
             </FormItem>
           )}

@@ -53,6 +53,8 @@ export async function PATCH(req: Request, context: z.infer<typeof routeContextSc
         name: body.name,
         description: body.description,
         category: body.category,
+        habitGoalValue: body.habitGoalValue,
+        habitGoalUnit: body.habitGoalUnit,
         updatedAt: new Date(),
       }
     })

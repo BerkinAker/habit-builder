@@ -11,21 +11,21 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 
 import { habitPatchSchema } from "@/lib/validations/habit";
-import { Label } from "@radix-ui/react-dropdown-menu";
 import { Textarea } from "./ui/textarea";
-import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { AlertDialogCancel } from "./ui/alert-dialog";
+import { cn } from "@/lib/utils";
 
 interface HabitEditFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  habit: Pick<Activity, "id" | "name" | "description" | "category">
+  habit: Pick<Activity, "id" | "name" | "description" | "category" | "habitCurrentValue" | "habitGoalValue" | "habitGoalUnit">
   setShowEditModal: (active: boolean) => void
 }
 
@@ -37,7 +37,10 @@ export default function HabitEditForm({ habit, setShowEditModal, className, ...p
     defaultValues: {
       name: habit.name,
       description: habit.description || "",
-      category: habit.category,
+      category: habit.category || "",
+      habitCurrentValue: habit.habitCurrentValue,
+      habitGoalValue: habit.habitGoalValue,
+      habitGoalUnit: habit.habitGoalUnit,
     },
   })
 
@@ -56,6 +59,8 @@ export default function HabitEditForm({ habit, setShowEditModal, className, ...p
         name: data.name,
         description: data.description,
         category: data.category,
+        habitGoalValue: data.habitGoalValue,
+        habitGoalUnit: data.habitGoalUnit,
       }),
     })
 
@@ -81,11 +86,49 @@ export default function HabitEditForm({ habit, setShowEditModal, className, ...p
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} disabled={isSave} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
+          <div className="flex gap-8">
+          <FormField
+            control={form.control}
+            name="habitGoalValue"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Goal</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="habitGoalUnit"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Goal Unit</FormLabel>
+                <FormControl>
+                  <select
+                    className={cn(
+                      buttonVariants({ variant: "outline" }),
+                      "w-[200px] appearance-none bg-transparent font-normal"
+                    )}
+                    {...field}
+                  >
+                    <option value="times">Times</option>
+                    <option value="minutes">Mins</option>
+                  </select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name="description"
@@ -93,7 +136,7 @@ export default function HabitEditForm({ habit, setShowEditModal, className, ...p
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea {...field} />
+                <Textarea {...field} disabled={isSave} />
               </FormControl>
               <FormDescription>
                 This is the description of your habit.
@@ -101,18 +144,18 @@ export default function HabitEditForm({ habit, setShowEditModal, className, ...p
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="category"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Category</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} disabled={isSave} />
               </FormControl>
             </FormItem>
           )}
-        />
+        /> */}
         <div className="flex flex-col w-full gap-2 md:w-auto md:flex md:flex-row md:justify-end md:gap-2">
           <AlertDialogCancel disabled={isSave}>Cancel</AlertDialogCancel>
           <Button type="submit" disabled={isSave}>

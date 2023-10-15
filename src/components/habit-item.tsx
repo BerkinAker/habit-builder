@@ -1,10 +1,12 @@
-import { formatDate } from "@/lib/utils"
+import { cn, formatDate } from "@/lib/utils"
 import { Activity } from "@prisma/client"
 import Link from "next/link"
 import HabitFunctions from "./habit-functions"
+import { Button, buttonVariants } from "./ui/button"
+import { Check } from "lucide-react"
 
 interface HabitItemProps {
-  habit: Pick<Activity, "id" | "name" | "category" | "description" | "createdAt" | "updatedAt">
+  habit: Pick<Activity, "id" | "name" | "category" | "description" | "habitCurrentValue" | "habitGoalValue" | "habitGoalUnit" | "createdAt" | "updatedAt">
 }
 
 export default function HabitItem({ habit }: HabitItemProps) {
@@ -27,7 +29,13 @@ export default function HabitItem({ habit }: HabitItemProps) {
           </div>
         ) : null}
       </div>
-      <HabitFunctions habit={{ id: habit.id, name: habit.name, description: habit.description, category: habit.category}} />
+      <div className="flex flex-row justify-center items-center gap-4">
+        <Button className={cn(buttonVariants({ variant: "outline" }), "flex items-center border-solid border-[1px] text-black")}>
+          <Check className="mr-2" size={16} />
+          Done
+        </Button>
+        <HabitFunctions habit={{ id: habit.id, name: habit.name, description: habit.description, category: habit.category, habitCurrentValue: habit.habitCurrentValue, habitGoalValue: habit.habitGoalValue, habitGoalUnit: habit.habitGoalUnit }} />
+      </div>
     </div>
   )
 }
