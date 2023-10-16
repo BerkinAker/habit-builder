@@ -1,7 +1,7 @@
 import { SiteConfig } from "@/types"
 
 export const siteConfig: SiteConfig = {
-  name: "FutureResume",
+  name: "HabitBuilder",
   author: "BerkinA",
   description: "FutureCv is a free, open-source project that provides a basic template for building fast, modern static resumes with NextJS.",
   keywords: [
