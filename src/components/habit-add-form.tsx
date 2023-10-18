@@ -92,7 +92,7 @@ export default function HabitAddForm({ setShowAddModal, className, ...props }: H
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input disabled={isSave} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -106,7 +106,7 @@ export default function HabitAddForm({ setShowAddModal, className, ...props }: H
               <FormItem>
                 <FormLabel>Goal</FormLabel>
                 <FormControl>
-                  <Input type="number" {...field} />
+                  <Input disabled={isSave} type="number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -120,6 +120,7 @@ export default function HabitAddForm({ setShowAddModal, className, ...props }: H
                 <FormLabel>Goal Unit</FormLabel>
                 <FormControl>
                   <select
+                    disabled={isSave}
                     className={cn(
                       buttonVariants({ variant: "outline" }),
                       "w-[200px] appearance-none bg-transparent font-normal"
@@ -127,7 +128,7 @@ export default function HabitAddForm({ setShowAddModal, className, ...props }: H
                     {...field}
                   >
                     <option value="times">Times</option>
-                    <option value="minutes">Mins</option>
+                    <option value="minutes" disabled>Mins</option>
                   </select>
                 </FormControl>
                 <FormMessage />
@@ -142,7 +143,7 @@ export default function HabitAddForm({ setShowAddModal, className, ...props }: H
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea {...field} />
+                <Textarea disabled={isSave} {...field} />
               </FormControl>
               <FormDescription>
                 This is the description of your habit.

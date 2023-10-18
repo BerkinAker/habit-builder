@@ -25,6 +25,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { useHabitProgress } from "@/hooks/use-habit-progress"
 
 async function deleteHabit(habitId: string) {
   const response = await fetch(`/api/habits/${habitId}`, {
@@ -46,6 +47,9 @@ interface HabitFunctionsProps {
 
 export default function HabitFunctions({ habit }: HabitFunctionsProps) {
   const router = useRouter()
+
+  const isOpen = useHabitProgress((store) => store.isOpen);
+
   const [isEditLoading, setIsEditLoading] = React.useState<boolean>(false)
   const [showEditModal, setShowEditModal] = React.useState<boolean>(false)
 
@@ -54,7 +58,7 @@ export default function HabitFunctions({ habit }: HabitFunctionsProps) {
 
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu modal={isOpen}>
         <DropdownMenuTrigger>
           <div className="flex items-center justify-center h-8 w-8 border rounded-md hover:bg-muted">
             <MoreHorizontal size={20} color="#001524" strokeWidth={1} />

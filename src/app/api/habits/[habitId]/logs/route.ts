@@ -85,7 +85,6 @@ export async function POST(req: Request, context: z.infer<typeof routeContextSch
     return new Response(JSON.stringify(habit))
 
   } catch (error) {
-    console.log("catch error aaa")
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }

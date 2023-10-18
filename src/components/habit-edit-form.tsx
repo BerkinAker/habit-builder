@@ -92,7 +92,7 @@ export default function HabitEditForm({ habit, setShowEditModal, className, ...p
             </FormItem>
           )}
         />
-          <div className="flex gap-8">
+        <div className="flex gap-8">
           <FormField
             control={form.control}
             name="habitGoalValue"
@@ -100,7 +100,7 @@ export default function HabitEditForm({ habit, setShowEditModal, className, ...p
               <FormItem>
                 <FormLabel>Goal</FormLabel>
                 <FormControl>
-                  <Input type="number" {...field} />
+                  <Input disabled={isSave} type="number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -114,6 +114,7 @@ export default function HabitEditForm({ habit, setShowEditModal, className, ...p
                 <FormLabel>Goal Unit</FormLabel>
                 <FormControl>
                   <select
+                    disabled={isSave}
                     className={cn(
                       buttonVariants({ variant: "outline" }),
                       "w-[200px] appearance-none bg-transparent font-normal"
@@ -121,7 +122,7 @@ export default function HabitEditForm({ habit, setShowEditModal, className, ...p
                     {...field}
                   >
                     <option value="times">Times</option>
-                    <option value="minutes">Mins</option>
+                    <option value="minutes" disabled>Mins</option>
                   </select>
                 </FormControl>
                 <FormMessage />

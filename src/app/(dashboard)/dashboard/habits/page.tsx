@@ -1,8 +1,11 @@
 import DashboardHeader from "@/components/dashboard-header"
 import HabitAddButton from "@/components/habit-add-button"
 import HabitItem from "@/components/habit-item"
+import HabitSuccess from "@/components/habit-success"
 import Shell from "@/components/layout/shell"
 import { Placeholder } from "@/components/placeholder"
+import { Accordion, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Separator } from "@/components/ui/separator"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
@@ -45,10 +48,23 @@ export default async function Habits() {
       </DashboardHeader>
       <div>
         {habits?.length ? (
-          <div className="divide-y divide-border border rounded-md">
-            {habits.map((habit) => (
-              <HabitItem key={habit.id} habit={habit} />
-            ))}
+          <div>
+            <div className="divide-y divide-border border rounded-md">
+              {habits.map((habit) => (
+                <HabitItem key={habit.id} habitSuccess={habit.habitCurrentValue === habit.habitGoalValue} habit={habit} />
+              ))}
+            </div>
+            <Separator className="mt-8" />
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger>Success</AccordionTrigger>
+                <div className="divide-y divide-border border rounded-md">
+                  {habits.map((habit) => (
+                    <HabitSuccess key={habit.id} habitSuccess={habit.habitCurrentValue === habit.habitGoalValue} isSuccessField={true} habit={habit} />
+                  ))}
+                </div>
+              </AccordionItem>
+            </Accordion>
           </div>
         ) : (
           <Placeholder>
