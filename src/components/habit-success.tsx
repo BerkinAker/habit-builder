@@ -1,11 +1,15 @@
+import { useRouter } from "next/navigation"
+import HabitItem from "./habit-item"
+import { Activity } from "@prisma/client"
+import { getTodaysActivityLog } from "@/lib/habits"
+import { db } from "@/lib/db"
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import HabitItem from "./habit-item"
-import { Activity } from "@prisma/client"
 
 interface HabitSuccessProps {
   habit: Pick<Activity, "id" | "name" | "category" | "description" | "habitCurrentValue" | "habitGoalValue" | "habitGoalUnit" | "createdAt" | "updatedAt">
@@ -13,10 +17,12 @@ interface HabitSuccessProps {
   isSuccessField: boolean
 }
 
-export default function HabitSuccess({ habitSuccess, habit, isSuccessField }: HabitSuccessProps) {
+export default async function HabitSuccess({ habitSuccess, habit, isSuccessField }: HabitSuccessProps) {
+  const logs = await getTodaysActivityLog(habit.id)
+
   return (
     <AccordionContent>
-      {habitSuccess ? (<HabitItem habit={habit} isSuccessField={isSuccessField} />) : null}
+      {logs.length > 0 ? (<HabitItem habit={habit} isSuccessField={isSuccessField} />) : null}
     </AccordionContent>
   )
 }

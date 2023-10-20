@@ -1,4 +1,5 @@
 'use client'
+
 import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation";
@@ -25,8 +26,11 @@ export default function HabitItem({ habit, habitSuccess, isSuccessField }: Habit
   const onClose = useHabitProgress((store) => store.onClose);
   const onOpen = useHabitProgress((store) => store.onOpen);
 
+  const [isHabitLoading, setIsHabitLoading] = React.useState(false)
+
   async function logClick(habitId: string) {
     onOpen()
+
     const response = await fetch(`/api/habits/${habitId}/logs`, {
       method: "POST",
       headers: {
@@ -35,6 +39,7 @@ export default function HabitItem({ habit, habitSuccess, isSuccessField }: Habit
     })
 
     onClose()
+
     if (!response?.ok) {
       if (response.status === 400) {
         toast("You have already logged this habit today.")
@@ -52,15 +57,29 @@ export default function HabitItem({ habit, habitSuccess, isSuccessField }: Habit
     router.refresh()
   }
 
+  async function checkNewDay() {
+    // if new day, reset habitCurrentValue to 0
+    if (habit.updatedAt.getUTCFullYear() !== new Date().getUTCFullYear() || habit.updatedAt.getUTCMonth() !== new Date().getUTCMonth() || habit.updatedAt.getUTCDate() !== new Date().getUTCDate()) {
+      await fetch(`/api/habits/${habit.id}/reset`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+      })
+      router.refresh()
+    }
+  }
+  checkNewDay()
+
   return (
     <>
-      {(!habitSuccess || isSuccessField) ? (
+      {(!habitSuccess) ? (
         <div className="flex justify-between items-center p-4">
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-16">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-8 mb-2">
                 <div style={{ width: 60, height: 60 }}>
-                  <CircularProgressbar value={(habit.habitCurrentValue / habit.habitGoalValue) * 100} text={`${(habit.habitCurrentValue / habit.habitGoalValue) * 100}%`} styles={buildStyles({
+                  <CircularProgressbar value={(habit.habitCurrentValue / habit.habitGoalValue) * 100} text={`${Math.round((habit.habitCurrentValue / habit.habitGoalValue) * 100)}%`} styles={buildStyles({
                     pathColor: '#ff5c00',
                     textColor: '#78716c',
                   })} />
@@ -76,11 +95,6 @@ export default function HabitItem({ habit, habitSuccess, isSuccessField }: Habit
                 </p> */}
               </div>
             </div>
-            {/* {habit.description ? (
-              <div>
-                <p className="text-sm text-muted-foreground">{habit.description}</p>
-              </div>
-            ) : null} */}
           </div>
           <div className="flex flex-row justify-center items-center gap-4">
             <Button onClick={() => logClick(habit.id)} className={cn(buttonVariants({ variant: "outline" }), "flex items-center border-solid border-[1px] text-black", isSuccessField && "hidden")} disabled={isOpen}>

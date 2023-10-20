@@ -2,6 +2,7 @@ import DashboardCard from "@/components/dahsboard-card"
 import DashboardHeader from "@/components/dashboard-header"
 import { DateRangePicker } from "@/components/date-range-picker"
 import Shell from "@/components/layout/shell"
+import { LogsChart } from "@/components/recharts/logs-chart"
 import { Button } from "@/components/ui/button"
 import { authOptions } from "@/lib/auth"
 import { getCurrentUser } from "@/lib/session"
@@ -26,6 +27,9 @@ const Dashboard = async () => {
         <DateRangePicker />
       </DashboardHeader>
       <DashboardCard />
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        <LogsChart />
+      </div>  
     </Shell>
   )
 }
