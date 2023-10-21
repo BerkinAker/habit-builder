@@ -5,6 +5,7 @@ import Shell from "@/components/layout/shell"
 import { LogsChart } from "@/components/recharts/logs-chart"
 import { Button } from "@/components/ui/button"
 import { authOptions } from "@/lib/auth"
+import { getHabitData } from "@/lib/dashboard"
 import { getCurrentUser } from "@/lib/session"
 import { Metadata } from "next"
 import { signOut } from "next-auth/react"
@@ -21,6 +22,8 @@ const Dashboard = async () => {
     redirect(authOptions?.pages?.signIn || '/signin')
   }
 
+  const habitLogsData = await getHabitData(user.id)
+
   return (
     <Shell>
       <DashboardHeader heading="Dashboard" text="Track your progress.">
@@ -28,8 +31,8 @@ const Dashboard = async () => {
       </DashboardHeader>
       <DashboardCard />
       <div className="grid grid-cols-1 md:grid-cols-2">
-        <LogsChart />
-      </div>  
+        <LogsChart data={habitLogsData} />
+      </div>
     </Shell>
   )
 }

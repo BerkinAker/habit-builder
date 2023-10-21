@@ -33,3 +33,8 @@ export type DashboardConfig = {
   mainNav: MainNavItem[]
   sidebarNav: DashboardSidebarNavItem[]
 }
+
+export type LogsByDate = {
+  date: string
+  count: number
+}

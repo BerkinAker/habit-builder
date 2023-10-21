@@ -3,13 +3,18 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card } from '../ui/card';
 import { formatDate } from '@/lib/utils';
+import { LogsByDate } from '@/types';
 
-export function LogsChart() {
+interface LogsChartProps {
+  data: LogsByDate[]
+}
+
+export function LogsChart({ data }: LogsChartProps) {
   return (
     <Card>
-      <ResponsiveContainer width="100%" height={250}>
-        <LineChart>
-          <CartesianGrid />
+      <ResponsiveContainer width="100%" height={275}>
+        <LineChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="date"
             stroke="#888888"
@@ -31,7 +36,7 @@ export function LogsChart() {
           />
           <Line
             type="monotone"
-            dataKey="pv"
+            dataKey="count"
             stroke="#8884d8"
             activeDot={{ r: 8 }}
           />
