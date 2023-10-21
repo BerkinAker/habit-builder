@@ -28,6 +28,9 @@ export async function getHabitLogsCountByDate(userId: string): Promise<LogsByDat
           },
           quantity: { $sum: 1 }
         }
+      },
+      {
+        $sort: { date: 1, _id: 1 }
       }
     ]
   });
