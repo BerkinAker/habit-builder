@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner';
 import NextTopLoader from 'nextjs-toploader';
+import ThemeNext from '@/components/theme-next';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,9 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NextTopLoader color="#ff5c00" height={2.5} showSpinner={false} />
-        {children}
-        <Toaster />
+        <ThemeNext attribute="class" defaultTheme="system" enableSystem>
+          <NextTopLoader color="#ff5c00" height={2.5} showSpinner={false} />
+          {children}
+          <Toaster />
+        </ThemeNext>
       </body>
     </html>
   )

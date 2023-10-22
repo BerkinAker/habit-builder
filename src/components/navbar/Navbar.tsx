@@ -23,12 +23,12 @@ const Navbar = () => {
           alt='Navbar logo'
           className="mb-[-5px] md:mb-0"
         />
-        <h1 className='hidden md:block text-[#FF5C00] text-[28px] ml-[-20px] mb-2'>FutureResume</h1>
+        <h1 className='hidden md:block text-[28px] ml-[-20px] mb-2'>FutureResume</h1>
       </div>
       <div className='hidden md:flex gap-14'>
         <Link href="/signup">
           <Button className={cn(buttonVariants({ variant: "outline", size: "lg" }),
-            "rounded-3xl border-solid border-[1px] border-[#FF5C00] text-black")}>
+            "rounded-3xl border-solid border-[1px] text-black")}>
             Sign Up
           </Button>
         </Link>
@@ -41,19 +41,19 @@ const Navbar = () => {
       {/* Mobile nav menu */}
       <div className={`flex flex-col absolute top-0 w-full h-screen bg-white text-xl py-16 px-10 ease-in-out duration-500 ${hambuger ? "left-0" : "-left-[100%]"}`}>
         {/* Hamburger close menu */}
-        <X onClick={handleHambuger} className="text-[#FF5C00] h-12 w-12 cursor-pointer" />
+        <X onClick={handleHambuger} className="h-12 w-12 cursor-pointer" />
         <ul className="flex flex-col gap-6 items-center absolute top-[20%] left-[50%] -translate-x-[50%] -translate-y-[20%]">
-          <li className="ease-in-out duration-300 hover:text-[#FF5C00]">
+          <li className="ease-in-out duration-300">
             <Link href="/signup">Sign up</Link>
           </li>
           <li>
-            <Link className="ease-in-out duration-300 hover:text-[#FF5C00]" href="/" >Sign in</Link>
+            <Link className="ease-in-out duration-300" href="/" >Sign in</Link>
           </li>
         </ul>
       </div>
 
       <div className="visible md:hidden">
-        <Menu onClick={handleHambuger} className="text-[#FF5C00] h-12 w-12 cursor-pointer" />
+        <Menu onClick={handleHambuger} className="h-12 w-12 cursor-pointer" />
       </div>
     </div>
   )

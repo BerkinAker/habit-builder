@@ -27,10 +27,10 @@ const Dashboard = async () => {
   return (
     <Shell>
       <DashboardHeader heading="Dashboard" text="Track your progress.">
-        <DateRangePicker />
+        {/* <DateRangePicker /> */}
       </DashboardHeader>
       <DashboardCard />
-      <div className="grid grid-cols-1 md:grid-cols-2">
+      <div className="grid grid-cols-1 ">
         <LogsChart data={habitLogsData} />
       </div>
     </Shell>

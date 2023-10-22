@@ -61,7 +61,7 @@ export default function HabitFunctions({ habit }: HabitFunctionsProps) {
       <DropdownMenu modal={isOpen}>
         <DropdownMenuTrigger>
           <div className="flex items-center justify-center h-8 w-8 border rounded-md hover:bg-muted">
-            <MoreHorizontal size={20} color="#001524" strokeWidth={1} />
+            <MoreHorizontal size={20} color="#78716c" strokeWidth={1} />
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">

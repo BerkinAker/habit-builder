@@ -26,6 +26,7 @@ export function LogsChart({ data }: LogsChartProps) {
           <YAxis
             dataKey="count"
             stroke="#888888"
+            allowDecimals={false}
             fontSize={12}
             tickLine={false}
             axisLine={false}
@@ -37,7 +38,7 @@ export function LogsChart({ data }: LogsChartProps) {
           <Line
             type="monotone"
             dataKey="count"
-            stroke="#8884d8"
+            stroke="#0f172a"
             activeDot={{ r: 8 }}
           />
         </LineChart>

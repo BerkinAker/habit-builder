@@ -5,6 +5,7 @@ import { DashboardSidebarNavItem } from "@/types"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import Icon from "./icon"
+import IconComponent from "./icon-component"
 
 interface DashboardNavProps {
   items: DashboardSidebarNavItem[]
@@ -28,7 +29,7 @@ export default function DashboardNav({ items }: DashboardNavProps) {
                 item.disabled && "cursor-not-allowed opacity-80",
                 item.href === path ? "bg-accent text-accent-foreground" : "transparent",
               )}>
-                <Icon name={item.icon} size={18} color="#ff5c00" strokeWidth={2.5} className="mr-2"/>
+                <IconComponent name={item.icon} className="mr-2" />
                 {item.title}
               </span>
             </Link>

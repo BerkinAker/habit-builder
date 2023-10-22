@@ -17,7 +17,7 @@ export type DashboardSidebarNavItem = {
   title: string
   disabled?: boolean
   external?: boolean
-  icon?: keyof typeof Icons
+  icon?: IconProps
 } & (
     | {
       href: string

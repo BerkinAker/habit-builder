@@ -97,15 +97,15 @@ export default function HabitItem({ habit, habitSuccess, isSuccessField }: Habit
             </div>
           </div>
           <div className="flex flex-row justify-center items-center gap-4">
-            <Button onClick={() => logClick(habit.id)} className={cn(buttonVariants({ variant: "outline" }), "flex items-center border-solid border-[1px] text-black", isSuccessField && "hidden")} disabled={isOpen}>
+            <Button onClick={() => logClick(habit.id)} className={cn(buttonVariants({ variant: "outline" }), "flex items-center border-solid border-[1px] text-black dark:text-white transition-all duration-200", isSuccessField && "hidden")} disabled={isOpen}>
               {(habit.habitGoalValue === 1) ?
                 (<>
                   <Check className="mr-2" size={16} color="#78716c" />
-                  <span>Done</span>
+                  <span className="dark:text-white">Done</span>
                 </>) :
                 (<>
                   <Plus size={16} className="mr-2" color="#78716c" />
-                  1
+                  <span className="">1</span>
                 </>)}
             </Button>
             <HabitFunctions habit={{ id: habit.id, name: habit.name, description: habit.description, category: habit.category, habitCurrentValue: habit.habitCurrentValue, habitGoalValue: habit.habitGoalValue, habitGoalUnit: habit.habitGoalUnit }} />

@@ -70,13 +70,13 @@ export default async function Habits() {
         ) : (
           <Placeholder>
             <div className="flex justify-center items-center h-20 w-20 rounded-full bg-muted">
-              <Calendar size={40} color="#ff5c00" strokeWidth={2.5} />
+              <Calendar size={40} strokeWidth={2.5} />
             </div>
             <Placeholder.Title>No habits yet</Placeholder.Title>
             <Placeholder.Description>
               Get started by adding a new habit.
             </Placeholder.Description>
-            <HabitAddButton variant="outline" className="border-solid border-[1px] border-[#FF5C00] text-black" />
+            <HabitAddButton variant="outline" className="text-black" />
           </Placeholder>
         )}
       </div>
