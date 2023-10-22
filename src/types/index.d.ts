@@ -38,3 +38,8 @@ export type LogsByDate = {
   date: string
   count: number
 }
+
+export type LogsByName = {
+  name: string
+  count: number
+}

@@ -1,4 +1,4 @@
-import { LogsByDate } from "@/types";
+import { LogsByDate, LogsByName } from "@/types";
 import { db } from "./db";
 
 export async function getHabitLogsCountByDate(userId: string): Promise<LogsByDate[]> {
@@ -45,4 +45,46 @@ export async function getHabitLogsCountByDate(userId: string): Promise<LogsByDat
   } else {
     return [];
   }
+}
+
+export async function getHabitLogsCountByName(userId: string): Promise<LogsByName[]> {
+
+  const habitLogs = await db.activityLog.aggregateRaw({
+    pipeline: [
+      {
+        $lookup: {
+          from: "Activity",
+          localField: "activityId",  // ActivityLog koleksiyonundaki alan
+          foreignField: "_id",       // Activity koleksiyonundaki alan
+          as: "activity"
+        }
+      },
+      {
+        $match: { "activity.userId": { '$oid': userId } } //fix match later
+      },
+      {
+        $unwind: "$activity"
+      },
+      {
+        $group: {
+          _id: {
+            name: "$activity.name"
+          },
+          quantity: { $sum: 1 }
+        }
+      }
+    ]
+  });
+
+  if (Array.isArray(habitLogs) && habitLogs.length > 0) {
+    // Dönen JSON veriyi LogsByDate[] tipine dönüştürme işlemi
+    const logsByName: LogsByName[] = habitLogs.map((item: any) => ({
+      name: item._id.name, // JSON'da _id.name alanı
+      count: item.quantity // JSON'da quantity alanı
+    }));
+    return logsByName;
+  } else {
+    return [];
+  }
+
 }

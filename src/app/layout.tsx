@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ThemeNext attribute="class" defaultTheme="system" enableSystem>
-          <NextTopLoader color="#ff5c00" height={2.5} showSpinner={false} />
+          <NextTopLoader color="#94a3b8" height={2.5} showSpinner={false} />
           {children}
           <Toaster />
         </ThemeNext>

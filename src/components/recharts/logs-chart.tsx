@@ -4,12 +4,15 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { Card } from '../ui/card';
 import { formatDate } from '@/lib/utils';
 import { LogsByDate } from '@/types';
+import { useTheme } from 'next-themes';
 
 interface LogsChartProps {
   data: LogsByDate[]
 }
 
 export function LogsChart({ data }: LogsChartProps) {
+  const { theme } = useTheme()
+
   return (
     <Card>
       <ResponsiveContainer width="100%" height={275}>
@@ -35,12 +38,21 @@ export function LogsChart({ data }: LogsChartProps) {
             formatter={(count, name, props) => [`Logs: ${props.payload.count}`]}
             labelStyle={{ color: "#000" }}
           />
-          <Line
-            type="monotone"
-            dataKey="count"
-            stroke="#0f172a"
-            activeDot={{ r: 8 }}
-          />
+          {(theme === 'dark') ? (
+            <Line
+              type="monotone"
+              dataKey="count"
+              stroke="#b91c1c"
+              activeDot={{ r: 8 }}
+            />) : (
+            <Line
+              type="monotone"
+              dataKey="count"
+              stroke="#ff5c00"
+              activeDot={{ r: 8 }}
+            />
+          )}
+
         </LineChart>
       </ResponsiveContainer>
     </Card>

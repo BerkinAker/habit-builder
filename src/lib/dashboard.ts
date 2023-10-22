@@ -1,8 +1,11 @@
-import { getHabitLogsCountByDate } from "./habitlog";
+import { getHabitLogsCountByDate, getHabitLogsCountByName } from "./habitlog";
 
 export async function getHabitData(userId: string) {
 
-  const habitLogsCountByDate = getHabitLogsCountByDate(userId)
+  const [habitLogsCountByDate, habitLogsCountByName] = await Promise.all([
+    getHabitLogsCountByDate(userId),
+    getHabitLogsCountByName(userId)
+  ])
 
-  return habitLogsCountByDate
+  return {habitLogsCountByDate, habitLogsCountByName}
 }
