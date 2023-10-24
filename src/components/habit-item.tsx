@@ -108,7 +108,7 @@ export default function HabitItem({ habit, habitSuccess, isSuccessField }: Habit
                   <span className="">1</span>
                 </>)}
             </Button>
-            <HabitFunctions habit={{ id: habit.id, name: habit.name, description: habit.description, category: habit.category, habitCurrentValue: habit.habitCurrentValue, habitGoalValue: habit.habitGoalValue, habitGoalUnit: habit.habitGoalUnit }} />
+            <HabitFunctions habit={{ id: habit.id, name: habit.name, description: habit.description, category: habit.category, habitCurrentValue: habit.habitCurrentValue, habitGoalValue: habit.habitGoalValue, habitGoalUnit: habit.habitGoalUnit }} successField={isSuccessField} />
           </div>
         </div>
       ) :

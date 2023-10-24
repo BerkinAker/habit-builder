@@ -13,8 +13,8 @@ export default function LogsBarChart({ data }: LogsChartProps) {
   const { theme } = useTheme()
 
   return (
-    <Card>
-      <ResponsiveContainer width="100%" height={275}>
+    <Card className='p-3'>
+      <ResponsiveContainer width="100%" height={250}>
         <BarChart
           width={500}
           height={300}
@@ -39,6 +39,7 @@ export default function LogsBarChart({ data }: LogsChartProps) {
           <YAxis
             dataKey="count"
             allowDecimals={false}
+            stroke="#888888"
             fontSize={12}
             tickLine={false}
             axisLine={false}

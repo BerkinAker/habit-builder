@@ -88,3 +88,65 @@ export async function getHabitLogsCountByName(userId: string): Promise<LogsByNam
   }
 
 }
+
+export async function getHabitStreak(userId: string): Promise<{
+  longestHabitStreak: number
+  currentHabitStreak: number
+}> {
+  const habitLogs = await db.activityLog.aggregateRaw({
+    pipeline: [
+      {
+        $lookup: {
+          from: "Activity",
+          localField: "activityId",  // ActivityLog koleksiyonundaki alan
+          foreignField: "_id",       // Activity koleksiyonundaki alan
+          as: "activity"
+        }
+      },
+      {
+        $match: { "activity.userId": { '$oid': userId } } //fix match later
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$date"
+            }
+          },
+          quantity: { $sum: 1 } // fix
+        }
+      },
+      {
+        $sort: { date: 1, _id: 1 }
+      }
+    ]
+  });
+
+  let longestHabitStreak = 1
+  let currentHabitStreak = 1
+
+  if (Array.isArray(habitLogs) && habitLogs.length > 0) {
+    for (let i = 0; i < habitLogs.length - 1; i++) {
+
+      const prevDate = new Date(habitLogs[i]._id).getTime()
+      const nextDate = new Date(habitLogs[i + 1]._id).getTime()
+      const diffTime = Math.abs(nextDate - prevDate);
+
+      const dayTime = 1000 * 60 * 60 * 24;
+
+      if (Math.abs(diffTime) <= dayTime) {
+        currentHabitStreak += 1
+      } else {
+        if (currentHabitStreak > longestHabitStreak) {
+          longestHabitStreak = currentHabitStreak
+        }
+        currentHabitStreak = 1
+      }
+    }
+
+    return { longestHabitStreak, currentHabitStreak }
+  }
+
+  return { longestHabitStreak, currentHabitStreak }
+}

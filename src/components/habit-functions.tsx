@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Activity } from "@prisma/client"
 import { useRouter } from "next/navigation"
-import { Loader2, MoreHorizontal, Pencil, Trash2 } from "lucide-react"
+import { Loader2, MoreHorizontal, Pencil, Trash2, Undo } from "lucide-react"
 import { toast } from 'sonner';
 import HabitEditForm from "./habit-edit-form"
 
@@ -25,6 +25,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+
 import { useHabitProgress } from "@/hooks/use-habit-progress"
 
 async function deleteHabit(habitId: string) {
@@ -41,17 +42,32 @@ async function deleteHabit(habitId: string) {
   return true
 }
 
-interface HabitFunctionsProps {
-  habit: Pick<Activity, "id" | "name" | "description" | "category" | "habitCurrentValue" | "habitGoalValue" | "habitGoalUnit">
+async function undoHabit(habitId: string) {
+  const response = await fetch(`/api/habits/${habitId}/undo`, {
+    method: "POST"
+  })
+
+  if (!response?.ok) {
+    toast('Something went wrong. Please try again.')
+  } else {
+    toast('Your habit has been reset successfully.')
+  }
+
+  return true
 }
 
-export default function HabitFunctions({ habit }: HabitFunctionsProps) {
+interface HabitFunctionsProps {
+  habit: Pick<Activity, "id" | "name" | "description" | "category" | "habitCurrentValue" | "habitGoalValue" | "habitGoalUnit">
+  successField?: boolean
+}
+
+export default function HabitFunctions({ habit, successField }: HabitFunctionsProps) {
   const router = useRouter()
 
   const isOpen = useHabitProgress((store) => store.isOpen);
 
-  const [isEditLoading, setIsEditLoading] = React.useState<boolean>(false)
   const [showEditModal, setShowEditModal] = React.useState<boolean>(false)
+  const [showUndoModal, setShowUndoModal] = React.useState<boolean>(false)
 
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
   const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false)
@@ -59,21 +75,34 @@ export default function HabitFunctions({ habit }: HabitFunctionsProps) {
   return (
     <>
       <DropdownMenu modal={isOpen}>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger disabled={isOpen}>
           <div className="flex items-center justify-center h-8 w-8 border rounded-md hover:bg-muted">
             <MoreHorizontal size={20} color="#78716c" strokeWidth={1} />
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          <DropdownMenuItem onSelect={() => {
-            document.body.style.pointerEvents = ""
-            setShowEditModal(true)
-          }}
-            className="cursor-pointer"
-          >
-            <Pencil size={18} className="mr-3" />
-            Edit
-          </DropdownMenuItem>
+          {successField ? (
+            <DropdownMenuItem onSelect={() => {
+              document.body.style.pointerEvents = ""
+              setShowUndoModal(true)
+            }}
+              className="cursor-pointer"
+            >
+              <Undo size={18} className="mr-3" />
+              Undo
+            </DropdownMenuItem>
+          ) :
+            (
+              <DropdownMenuItem onSelect={() => {
+                document.body.style.pointerEvents = ""
+                setShowEditModal(true)
+              }}
+                className="cursor-pointer"
+              >
+                <Pencil size={18} className="mr-3" />
+                Edit
+              </DropdownMenuItem>
+            )}
           <DropdownMenuSeparator />
           {/* onSelect: Event handler called when the user selects an item (via mouse or keyboard). Source: https://www.radix-ui.com/primitives/docs/components/dropdown-menu#api-reference */}
           <DropdownMenuItem onSelect={() => {
@@ -94,6 +123,43 @@ export default function HabitFunctions({ habit }: HabitFunctionsProps) {
             habit={{ id: habit.id, name: habit.name, description: habit.description, category: habit.category, habitCurrentValue: habit.habitCurrentValue, habitGoalValue: habit.habitGoalValue, habitGoalUnit: habit.habitGoalUnit }}
             setShowEditModal={setShowEditModal}
           />
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Undo Alert Dialog */}
+      <AlertDialog open={showUndoModal} onOpenChange={setShowUndoModal}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure you want to undo this habit?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Log value will be removed for Today, do you want to undo this habit?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeleteLoading}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              disabled={isDeleteLoading}
+              onClick={async (event) => {
+                event.preventDefault()
+                setIsDeleteLoading(true)
+
+                const resetHabit = await undoHabit(habit.id)
+
+                if (resetHabit) {
+                  setShowDeleteModal(false)
+                  setIsDeleteLoading(false)
+                  router.refresh()
+                }
+
+              }}
+            >
+              {isDeleteLoading ? (
+                <Loader2 size={18} className="animate-spin mr-2" />
+              ) : <Undo size={18} className="mr-2" />}
+
+              Undo
+            </AlertDialogAction>
+          </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
 

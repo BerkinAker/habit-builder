@@ -1,12 +1,20 @@
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
-import { Calendar, Flame } from "lucide-react"
+import { Flame } from "lucide-react"
 
-export default function DashboardCard() {
+interface DashboardCardProps {
+  data: {
+    habitStreak: {
+      currentHabitStreak: number
+      longestHabitStreak: number
+    }
+  }
+}
+
+export default function DashboardCard({ data }: DashboardCardProps) {
+
   return (
     <div className="grid gap-4 md:grid-cols-1">
       <Card className="flex items-center">
@@ -14,8 +22,8 @@ export default function DashboardCard() {
           <div className="flex gap-8">
             <Flame size={38} color="#ff5c00" strokeWidth={2.5} />
             <div>
-              <p className="text-xs text-muted-foreground">Current Streak</p>
-              <span className="text-2xl font-bold"> 0 days</span>
+              <p className="text-xs text-muted-foreground">Longest Streak</p>
+              <span className="text-2xl font-bold"> {data.habitStreak.longestHabitStreak} days</span>
             </div>
           </div>
         </CardContent>
@@ -26,7 +34,7 @@ export default function DashboardCard() {
             <Flame size={38} color="#ff5c00" strokeWidth={2.5} />
             <div>
               <p className="text-xs text-muted-foreground">Current Streak</p>
-              <span className="text-2xl font-bold"> 0 days</span>
+              <span className="text-2xl font-bold"> {data.habitStreak.currentHabitStreak} days</span>
             </div>
           </div>
         </CardContent>

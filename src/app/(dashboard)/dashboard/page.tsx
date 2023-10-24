@@ -31,8 +31,8 @@ const Dashboard = async () => {
       <DashboardHeader heading="Dashboard" text="Track your progress.">
         {/* <DateRangePicker /> */}
       </DashboardHeader>
-      <div className="grid gap-4 md:grid-cols-2">
-        <DashboardCard />
+      <div className="grid gap-8 grid-cols-1 md:grid-cols-2">
+        <DashboardCard data={habitLogsData} />
         <LogsBarChart data={habitLogsData.habitLogsCountByName} />
         {/* <CalendarProgress /> */}
       </div>

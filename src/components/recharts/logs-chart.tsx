@@ -14,7 +14,7 @@ export function LogsChart({ data }: LogsChartProps) {
   const { theme } = useTheme()
 
   return (
-    <Card>
+    <Card className='p-3'>
       <ResponsiveContainer width="100%" height={275}>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />

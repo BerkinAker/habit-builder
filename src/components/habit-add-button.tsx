@@ -20,13 +20,16 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import HabitAddForm from "./habit-add-form"
+import { useHabitProgress } from "@/hooks/use-habit-progress"
 
 interface HabitCreateButtonProps extends ButtonProps { }
 
 export default function HabitAddButton({ className, variant, ...props }: HabitCreateButtonProps) {
   const router = useRouter()
+
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const [showAddModal, setShowAddModal] = React.useState<boolean>(false)
+  const isOpen = useHabitProgress((store) => store.isOpen);
 
   return (
     <>
@@ -37,6 +40,7 @@ export default function HabitAddButton({ className, variant, ...props }: HabitCr
           { "cursor-not-allowed opacity-70": isLoading },
           className
         )}
+        disabled={isOpen}
       >
         {isLoading ? (
           <Loader2 size={18} className="animate-spin mr-2" />
