@@ -19,8 +19,8 @@ export async function checkCurrentUserHasAccessToHabit(habitId: string) {
 export async function getHabitById(id: Activity["id"], userId: Activity["userId"]) {
   return db.activity.findFirst({
     where: {
-      id,
-      userId,
+      id: id,
+      userId: userId,
     },
   })
 }

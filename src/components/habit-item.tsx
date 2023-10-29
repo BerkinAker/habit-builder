@@ -84,7 +84,7 @@ export default function HabitItem({ habit, habitSuccess, isSuccessField }: Habit
                     textColor: '#78716c',
                   })} />
                 </div>
-                <Link href={`/edit/${habit.id}`} className={cn("font-semibold hover:underline underline-offset-4 decoration-[#FF5C00] mt-[4px]", isSuccessField && "line-through decoration-muted-foreground hover:line-through")}>
+                <Link href={`/dashboard/habits/${habit.id}`} className={cn("font-semibold hover:underline underline-offset-4 decoration-[#FF5C00] mt-[4px]", isSuccessField && "line-through decoration-muted-foreground hover:line-through")}>
                   {habit.name}
                 </Link>
               </div>

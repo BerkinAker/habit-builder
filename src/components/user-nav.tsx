@@ -16,6 +16,7 @@ import Link from "next/link"
 interface UserNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "email" | "image">
 }
+
 export default function UserNav({ user }: UserNavProps) {
   return (
     <div>
@@ -34,8 +35,11 @@ export default function UserNav({ user }: UserNavProps) {
             </div>
           </div>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <Link href="/dashboard">Dashboard</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/dashboard/pricing">Pricing</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link href="/dashboard/settings">Settings</Link>
@@ -57,9 +61,3 @@ export default function UserNav({ user }: UserNavProps) {
     </div>
   )
 }
-// Sign out button version
-{/* <DropdownMenuItem> <Button onClick={() => signOut({
-                callbackUrl: `${window.location.origin}/signin`
-              })}>
-                Sign out
-              </Button></DropdownMenuItem> */}

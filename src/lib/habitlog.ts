@@ -37,11 +37,45 @@ export async function getHabitLogsCountByDate(userId: string): Promise<LogsByDat
 
   if (Array.isArray(habitLogs) && habitLogs.length > 0) {
     // Dönen JSON veriyi LogsByDate[] tipine dönüştürme işlemi
-    const logsByDate: LogsByDate[] = habitLogs.map((item: any) => ({
-      date: item._id, // JSON'da _id alanı
-      count: item.quantity // JSON'da quantity alanı
-    }));
-    return logsByDate;
+
+    let nonZeroDate = null
+    // get first nonZeroDate
+    for (let i = 0; i < habitLogs.length; i++) {
+      if (habitLogs[i].quantity > 0) {
+        nonZeroDate = habitLogs[i]._id
+        break
+      }
+    }
+
+    // console.log(nonZeroDate)
+
+    // then check nonZeroDate to now if no logs entered in a day, set its quantity to 0
+
+    const logsByDate2: LogsByDate[] = []
+
+    if (nonZeroDate) {
+      let currentDate = new Date(nonZeroDate)
+      const today = new Date()
+      while (currentDate <= today) {
+        const date = currentDate.toISOString().slice(0, 10)
+        const log = habitLogs.find((log) => log._id === date)
+        if (log) {
+          logsByDate2.push({ date: log._id, count: log.quantity })
+        } else {
+          logsByDate2.push({ date: date, count: 0 })
+        }
+        currentDate.setDate(currentDate.getDate() + 1)
+      }
+    }
+    return logsByDate2
+    //   const logsByDate: LogsByDate[] = habitLogs.map((item: any) => ({
+    //     date: item._id, // JSON'da _id alanı
+    //     count: item.quantity // JSON'da quantity alanı
+    //   }));
+    //   return logsByDate;
+    // } else {
+    //   return [];
+    // }
   } else {
     return [];
   }
@@ -114,7 +148,7 @@ export async function getHabitStreak(userId: string): Promise<{
               date: "$date"
             }
           },
-          quantity: { $sum: 1 } // fix
+          quantity: { $sum: 1 }
         }
       },
       {
@@ -127,13 +161,14 @@ export async function getHabitStreak(userId: string): Promise<{
   let currentHabitStreak = 1
 
   if (Array.isArray(habitLogs) && habitLogs.length > 0) {
+    const dayTime = 1000 * 60 * 60 * 24;
+
     for (let i = 0; i < habitLogs.length - 1; i++) {
 
       const prevDate = new Date(habitLogs[i]._id).getTime()
       const nextDate = new Date(habitLogs[i + 1]._id).getTime()
       const diffTime = Math.abs(nextDate - prevDate);
 
-      const dayTime = 1000 * 60 * 60 * 24;
 
       if (Math.abs(diffTime) <= dayTime) {
         currentHabitStreak += 1
@@ -143,6 +178,13 @@ export async function getHabitStreak(userId: string): Promise<{
         }
         currentHabitStreak = 1
       }
+    }
+
+    const lastHabitLog = new Date(habitLogs[habitLogs.length - 1]._id).getTime()
+    const diffTime = new Date().getTime() - lastHabitLog
+
+    if (Math.abs(diffTime) > dayTime * 2) {
+      currentHabitStreak = 0
     }
 
     return { longestHabitStreak, currentHabitStreak }

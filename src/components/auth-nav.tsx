@@ -21,7 +21,6 @@ function AuthNav({ children, items }: AuthNavProps) {
   return (
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="hidden md:flex items-center space-x-2">
-        <Webhook size={26} color="#ff5c00" strokeWidth={2.5} />
         <span className="hidden font-bold md:inline-block">{siteConfig.name}</span>
       </Link>
       {items?.length ? (

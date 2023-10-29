@@ -145,9 +145,6 @@ export default function HabitAddForm({ setShowAddModal, className, ...props }: H
               <FormControl>
                 <Textarea disabled={isSave} {...field} />
               </FormControl>
-              <FormDescription>
-                This is the description of your habit.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

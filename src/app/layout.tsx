@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner';
 import NextTopLoader from 'nextjs-toploader';
 import ThemeNext from '@/components/theme-next';
+import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,7 +20,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={cn(
+        "min-h-screen",
+        inter.className
+      )}>
         <ThemeNext attribute="class" defaultTheme="system" enableSystem>
           <NextTopLoader color="#94a3b8" height={2.5} showSpinner={false} />
           {children}

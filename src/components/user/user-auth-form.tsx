@@ -17,7 +17,7 @@ const UserAuthForm = () => {
           </span>
         </div>
       </div>
-      <Button onClick={() => signIn("github")} className={cn(buttonVariants({ variant: "outline" }), "border-solid border-[1px] border-[#FF5C00] text-black")}><Github size={20} strokeWidth={2} /> &nbsp; Continue with Github</Button>
+      <Button onClick={() => signIn("github")} className={cn(buttonVariants({ variant: "outline" }), "border-solid border-[1px] text-black")}><Github size={20} strokeWidth={2} /> &nbsp; Continue with Github</Button>
     </div>
   )
 }
