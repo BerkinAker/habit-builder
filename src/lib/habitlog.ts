@@ -10,13 +10,13 @@ export async function getHabitLogsCountByDate(userId: string): Promise<LogsByDat
       {
         $lookup: {
           from: "Activity",
-          localField: "activityId",  // ActivityLog koleksiyonundaki alan
-          foreignField: "_id",       // Activity koleksiyonundaki alan
+          localField: "activityId",
+          foreignField: "_id",
           as: "activity"
         }
       },
       {
-        $match: { "activity.userId": { '$oid': userId } } //fix match later
+        $match: { "activity.userId": { '$oid': userId } }
       },
       {
         $group: {
@@ -36,7 +36,6 @@ export async function getHabitLogsCountByDate(userId: string): Promise<LogsByDat
   });
 
   if (Array.isArray(habitLogs) && habitLogs.length > 0) {
-    // Dönen JSON veriyi LogsByDate[] tipine dönüştürme işlemi
 
     let nonZeroDate = null
     // get first nonZeroDate
@@ -46,10 +45,6 @@ export async function getHabitLogsCountByDate(userId: string): Promise<LogsByDat
         break
       }
     }
-
-    // console.log(nonZeroDate)
-
-    // then check nonZeroDate to now if no logs entered in a day, set its quantity to 0
 
     const logsByDate2: LogsByDate[] = []
 
@@ -68,14 +63,6 @@ export async function getHabitLogsCountByDate(userId: string): Promise<LogsByDat
       }
     }
     return logsByDate2
-    //   const logsByDate: LogsByDate[] = habitLogs.map((item: any) => ({
-    //     date: item._id, // JSON'da _id alanı
-    //     count: item.quantity // JSON'da quantity alanı
-    //   }));
-    //   return logsByDate;
-    // } else {
-    //   return [];
-    // }
   } else {
     return [];
   }
@@ -88,13 +75,13 @@ export async function getHabitLogsCountByName(userId: string): Promise<LogsByNam
       {
         $lookup: {
           from: "Activity",
-          localField: "activityId",  // ActivityLog koleksiyonundaki alan
-          foreignField: "_id",       // Activity koleksiyonundaki alan
+          localField: "activityId",
+          foreignField: "_id",
           as: "activity"
         }
       },
       {
-        $match: { "activity.userId": { '$oid': userId } } //fix match later
+        $match: { "activity.userId": { '$oid': userId } }
       },
       {
         $unwind: "$activity"
@@ -111,16 +98,15 @@ export async function getHabitLogsCountByName(userId: string): Promise<LogsByNam
   });
 
   if (Array.isArray(habitLogs) && habitLogs.length > 0) {
-    // Dönen JSON veriyi LogsByDate[] tipine dönüştürme işlemi
     const logsByName: LogsByName[] = habitLogs.map((item: any) => ({
-      name: item._id.name, // JSON'da _id.name alanı
-      count: item.quantity // JSON'da quantity alanı
+      name: item._id.name,
+      count: item.quantity
     }));
+
     return logsByName;
   } else {
     return [];
   }
-
 }
 
 export async function getHabitStreak(userId: string): Promise<{
@@ -132,13 +118,13 @@ export async function getHabitStreak(userId: string): Promise<{
       {
         $lookup: {
           from: "Activity",
-          localField: "activityId",  // ActivityLog koleksiyonundaki alan
-          foreignField: "_id",       // Activity koleksiyonundaki alan
+          localField: "activityId",
+          foreignField: "_id",
           as: "activity"
         }
       },
       {
-        $match: { "activity.userId": { '$oid': userId } } //fix match later
+        $match: { "activity.userId": { '$oid': userId } }
       },
       {
         $group: {
@@ -168,7 +154,6 @@ export async function getHabitStreak(userId: string): Promise<{
       const prevDate = new Date(habitLogs[i]._id).getTime()
       const nextDate = new Date(habitLogs[i + 1]._id).getTime()
       const diffTime = Math.abs(nextDate - prevDate);
-
 
       if (Math.abs(diffTime) <= dayTime) {
         currentHabitStreak += 1
