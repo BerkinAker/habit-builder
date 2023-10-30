@@ -109,10 +109,12 @@ export async function getHabitLogsCountByName(userId: string): Promise<LogsByNam
   }
 }
 
-export async function getHabitStreak(userId: string): Promise<{
+export async function getHabitStreak(userId: string, type: "userId" | "habitId", id?: string): Promise<{
   longestHabitStreak: number
   currentHabitStreak: number
 }> {
+  const typeMatch = type === "userId" ? { "activity.userId": { '$oid': userId } } : { activityId: { '$oid': userId }, "activity.userId": { '$oid': id } }
+
   const habitLogs = await db.activityLog.aggregateRaw({
     pipeline: [
       {
@@ -124,7 +126,7 @@ export async function getHabitStreak(userId: string): Promise<{
         }
       },
       {
-        $match: { "activity.userId": { '$oid': userId } }
+        $match: typeMatch
       },
       {
         $group: {
@@ -142,6 +144,8 @@ export async function getHabitStreak(userId: string): Promise<{
       }
     ]
   });
+
+  if (habitLogs.length === 0) return { longestHabitStreak: 0, currentHabitStreak: 0 }
 
   let longestHabitStreak = 1
   let currentHabitStreak = 1
@@ -177,3 +181,65 @@ export async function getHabitStreak(userId: string): Promise<{
 
   return { longestHabitStreak, currentHabitStreak }
 }
+
+// get the last week's log count using habit id.
+export async function getHabitLogsCountByHabitId(habitId: string, userId: string): Promise<LogsByDate[]> {
+  const sevenDaysAgo = new Date()
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+
+  const habitLogs = await db.activityLog.aggregateRaw({
+    pipeline: [
+      {
+        $lookup: {
+          from: "Activity",
+          localField: "activityId",
+          foreignField: "_id",
+          as: "activity"
+        }
+      },
+      {
+        $match: {
+          activityId: { '$oid': habitId },
+          "activity.userId": { '$oid': userId },
+          date: { $gte: { '$date': sevenDaysAgo } },
+        }
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$date"
+            }
+          },
+          quantity: { $sum: 4 }
+        }
+      },
+      {
+        $sort: { date: 1, _id: 1 }
+      }
+    ]
+  });
+  
+  if (Array.isArray(habitLogs) && habitLogs.length >= 0) {
+
+    const logsByDate2: LogsByDate[] = []
+
+    const today = new Date()
+    while (sevenDaysAgo <= today) {
+      const date = sevenDaysAgo.toISOString().slice(0, 10)
+      const log = habitLogs.find((log) => log._id === date)
+
+      if (log) {
+        logsByDate2.push({ date: log._id, count: log.quantity })
+      } else {
+        logsByDate2.push({ date: date, count: 0 })
+      }
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() + 1)
+    }
+    return logsByDate2
+  } else {
+    return [];
+  }
+}
+

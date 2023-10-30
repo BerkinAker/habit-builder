@@ -1,16 +1,32 @@
 'use client'
 
-import { LogsByName } from '@/types';
+import { LogsByDate, LogsByName } from '@/types';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card } from '../ui/card';
 import { useTheme } from 'next-themes';
 
 interface LogsChartProps {
-  data: LogsByName[]
+  data: LogsByName[] | LogsByDate[]
 }
 
 export default function LogsBarChart({ data }: LogsChartProps) {
   const { theme } = useTheme()
+  let tooltip = true
+  let datakey: string = ''
+  let fontScale = 12
+
+  if (Array.isArray(data) && data.length > 0) {
+    if ('name' in data[0]) {
+      datakey = 'name'
+      tooltip = true
+      fontScale = 12
+
+    } else if ('date' in data[0]) {
+      datakey = 'date'
+      tooltip = false
+      fontScale = 0
+    }
+  }
 
   return (
     <Card className='p-3'>
@@ -28,7 +44,7 @@ export default function LogsBarChart({ data }: LogsChartProps) {
           barSize={20}
         >
           <XAxis
-            dataKey="name"
+            dataKey={datakey}
             scale="point"
             padding={{ left: 10, right: 10 }}
             stroke="#888888"
@@ -40,11 +56,11 @@ export default function LogsBarChart({ data }: LogsChartProps) {
             dataKey="count"
             allowDecimals={false}
             stroke="#888888"
-            fontSize={12}
+            fontSize={fontScale}
             tickLine={false}
             axisLine={false}
           />
-          <Tooltip />
+          {tooltip && <Tooltip />}
           <CartesianGrid strokeDasharray="3 3" />
           {(theme === 'dark') ? <Bar dataKey="count" fill="#b91c1c" background={{ fill: "#374151" }} /> : <Bar dataKey="count" fill="#ff5c00" background={{ fill: "#eee" }} />}
         </BarChart>

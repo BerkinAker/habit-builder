@@ -19,4 +19,7 @@ export const habitPatchSchema = z.object({
   }),
   habitCurrentValue: z.number().default(0),
   habitGoalUnit: z.string().default("times")
+}).refine((data) => data.habitGoalValue >= data.habitCurrentValue, {
+  message: "Habit goal value cannot be less than current value.",
+  path: ["habitGoalValue"]
 });

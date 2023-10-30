@@ -13,7 +13,7 @@ const UserAuthForm = () => {
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
+            Continue with
           </span>
         </div>
       </div>
