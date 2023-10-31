@@ -220,12 +220,14 @@ export async function getHabitLogsCountByHabitId(habitId: string, userId: string
       }
     ]
   });
-  
+
   if (Array.isArray(habitLogs) && habitLogs.length >= 0) {
 
     const logsByDate2: LogsByDate[] = []
 
     const today = new Date()
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() + 1)
+
     while (sevenDaysAgo <= today) {
       const date = sevenDaysAgo.toISOString().slice(0, 10)
       const log = habitLogs.find((log) => log._id === date)
@@ -241,5 +243,27 @@ export async function getHabitLogsCountByHabitId(habitId: string, userId: string
   } else {
     return [];
   }
+}
+
+export async function getHabitLogs(habitId: string, userId: string) {
+  return await db.activityLog.findMany({
+    select: {
+      id: true,
+      date: true,
+      activity: {
+        select: {
+          id: true,
+          name: true,
+          habitGoalValue: true,
+        },
+      }
+    },
+    where: {
+      activityId: habitId,
+      activity: {
+        userId: userId
+      }
+    }
+  })
 }
 

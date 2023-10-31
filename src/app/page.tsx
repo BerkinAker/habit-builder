@@ -25,7 +25,7 @@ export default function Home() {
           Add your habits and take control of your progress from the start.
         </p>
 
-        <Link className={buttonVariants({ size: "lg", className: "mt-6" })} href="/dashboard">
+        <Link className={buttonVariants({ size: "lg", className: "mt-6" })} href="/signup">
           Get started <MoveRight size={18} className='ml-2' />
         </Link>
       </FrontMaxWidthWrapper>

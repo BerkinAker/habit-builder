@@ -1,4 +1,4 @@
-import { getHabitLogsCountByDate, getHabitLogsCountByHabitId, getHabitLogsCountByName, getHabitStreak } from "./habitlog";
+import { getHabitLogs, getHabitLogsCountByDate, getHabitLogsCountByHabitId, getHabitLogsCountByName, getHabitStreak } from "./habitlog";
 
 export async function getHabitData(userId: string) {
 
@@ -13,10 +13,11 @@ export async function getHabitData(userId: string) {
 
 export async function getSpecificHabitData(habitId: string, userId: string) {
 
-  const [habitStreak, weeklyHabitLogs] = await Promise.all([
+  const [habitStreak, weeklyHabitLogs, habitLogs] = await Promise.all([
     getHabitStreak(habitId, "habitId", userId),
     getHabitLogsCountByHabitId(habitId, userId),
+    getHabitLogs(habitId, userId)
   ])
 
-  return { habitStreak, weeklyHabitLogs }
+  return { habitStreak, weeklyHabitLogs, habitLogs }
 }

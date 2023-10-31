@@ -9,7 +9,7 @@
 * [shacdn/ui](https://ui.shadcn.com/)
 * [NextAuth.js](https://next-auth.js.org/)
 * [Prisma](https://www.prisma.io/) ORM
-* MongoDB Database
-* Zod Validations
+* [MongoDB](https://www.mongodb.com/atlas/database) Database
+* [Zod](https://zod.dev/) Validations
 
 ## License

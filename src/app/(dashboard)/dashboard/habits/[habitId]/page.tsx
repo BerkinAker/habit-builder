@@ -1,10 +1,10 @@
 import DashboardCard from "@/components/dahsboard-card"
 import DashboardHeader from "@/components/dashboard-header"
 import Shell from "@/components/layout/shell"
+import LogHeatmap from "@/components/recharts/logheatmap"
 import LogsBarChart from "@/components/recharts/logs-bar-chart"
 import { authOptions } from "@/lib/auth"
 import { getSpecificHabitData } from "@/lib/dashboard"
-import { db } from "@/lib/db"
 import { getHabitById } from "@/lib/habits"
 import { getCurrentUser } from "@/lib/session"
 import { notFound, redirect } from "next/navigation"
@@ -28,7 +28,14 @@ export default async function HabitPage({ params }: HabitPageProps) {
   }
 
   const specificHabitData = await getSpecificHabitData(habit.id, user.id)
-    
+  
+  const updatedHabitData = specificHabitData.habitLogs.map((log) => {
+    return {
+      ...log,
+      count: specificHabitData.habitLogs[0].activity.habitGoalValue
+    }
+  })
+  
   return (
     <Shell>
       <DashboardHeader
@@ -36,8 +43,13 @@ export default async function HabitPage({ params }: HabitPageProps) {
         text={`${habit.description}`}
       >
       </DashboardHeader>
-      <DashboardCard data={specificHabitData} />
-      <LogsBarChart data={specificHabitData.weeklyHabitLogs} />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <DashboardCard data={specificHabitData} />
+        <div className="md:col-span-2">
+          <LogsBarChart data={specificHabitData.weeklyHabitLogs} />
+        </div>
+      </div>
+      <LogHeatmap data={updatedHabitData} params={params} />
     </Shell>
   )
 }
