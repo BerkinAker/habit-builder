@@ -118,9 +118,9 @@ export default function Home() {
               />
             </div>
           </div>
-          
+
           <div>
-            <Image 
+            <Image
               src="/frontpage-demo-habit2.jpg"
               width={1359}
               height={893}
