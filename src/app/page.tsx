@@ -118,7 +118,16 @@ export default function Home() {
               />
             </div>
           </div>
-
+          
+          <div>
+            <Image 
+              src="/frontpage-demo-habit2.jpg"
+              width={1359}
+              height={893}
+              quality={100}
+              alt="HabitBuilder log demo"
+            />
+          </div>
         </div>
       </div>
     </>

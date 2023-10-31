@@ -60,7 +60,7 @@ export default async function Habits() {
                 <AccordionTrigger>Success</AccordionTrigger>
                 <div className="divide-y divide-border border rounded-md">
                   {habits.map((habit) => (
-                    // @ts-expect-error Server Component
+                    // @ts-ignore
                     <HabitSuccess key={habit.id} habitSuccess={habit.habitCurrentValue === habit.habitGoalValue} isSuccessField={true} habit={habit} />
                   ))}
                 </div>
