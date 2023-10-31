@@ -9,7 +9,7 @@ export default function Home() {
 
   return (
     <>
-      {/* @ts-expect-error Server Component */}
+      {/* @ts-ignore */}
       <Navbar />
       <FrontMaxWidthWrapper className="flex flex-col justify-center items-center text-center mt-28 mb-12 sm:mt-34">
         <div className="flex justify-center items-center space-x-2 max-w-fit rounded-full shadow-md bg-white border border-gray-200 backdrop-blur mx-auto mb-4 px-8 py-2 overflow-hidden transition-all hover:border-gray-300 hover:bg-white/50">
