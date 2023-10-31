@@ -28,14 +28,15 @@ export default async function HabitPage({ params }: HabitPageProps) {
   }
 
   const specificHabitData = await getSpecificHabitData(habit.id, user.id)
-  
+
   const updatedHabitData = specificHabitData.habitLogs.map((log) => {
     return {
       ...log,
-      count: specificHabitData.habitLogs[0].activity.habitGoalValue
+      count: specificHabitData.habitLogs[0].activity.habitGoalValue,
+      date: log.date.toISOString().split('T')[0]
     }
   })
-  
+
   return (
     <Shell>
       <DashboardHeader

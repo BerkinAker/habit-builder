@@ -14,7 +14,7 @@ interface LogHeatmapProps {
       habitGoalValue: number
     }
     id: string
-    date: Date
+    date: string
     count: number
   }[]
   params: { habitId: string }

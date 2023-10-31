@@ -1,7 +1,7 @@
 'use client'
 
 import { LogsByDate, LogsByName } from '@/types';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
 import { Card } from '../ui/card';
 import { useTheme } from 'next-themes';
 
@@ -59,7 +59,9 @@ export default function LogsBarChart({ data }: LogsChartProps) {
             fontSize={fontScale}
             tickLine={false}
             axisLine={false}
-          />
+          >
+            {/* <Label value="Weekly" offset={5} position="insideStart" /> */}
+          </YAxis>
           {tooltip && <Tooltip />}
           <CartesianGrid strokeDasharray="3 3" />
           {(theme === 'dark') ? <Bar dataKey="count" fill="#b91c1c" background={{ fill: "#374151" }} /> : <Bar dataKey="count" fill="#ff5c00" background={{ fill: "#eee" }} />}
