@@ -42,7 +42,7 @@ export default function Home() {
               <div className="flow-root mt-18 sm:mt-24">
                 <div className="rounded-xl bg-slate-900/5 -m-2 p-2 ring-1 ring-inset ring-slate-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
                   <Image
-                    src='/frontpage-demo3.jpg'
+                    src='/frontpage-demo4.jpg'
                     width={1555}
                     height={893}
                     quality={100}
