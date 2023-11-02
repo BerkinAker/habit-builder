@@ -118,19 +118,18 @@ export default function Home() {
               />
             </div>
           </div>
-
-          <div className="col-span-2">
-            <div className="mx-auto max-w-6xl px-6 lg:px-10">
-              <div className="flow-root mt-18 sm:mt-24">
-                <div className="rounded-xl bg-slate-900/5 -m-2 p-2 ring-1 ring-inset ring-slate-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
-                  <Image
-                    src="/frontpage-demo-habit2.jpg"
-                    width={1359}
-                    height={893}
-                    quality={100}
-                    alt="HabitBuilder log demo"
-                  />
-                </div>
+        </div>
+        <div className="col-span-2">
+          <div className="mx-auto max-w-6xl px-6 lg:px-10">
+            <div className="flow-root mt-18 sm:mt-24">
+              <div className="rounded-xl bg-slate-900/5 -m-2 p-2 ring-1 ring-inset ring-slate-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
+                <Image
+                  src="/frontpage-demo-habit2.jpg"
+                  width={1359}
+                  height={893}
+                  quality={100}
+                  alt="HabitBuilder log demo"
+                />
               </div>
             </div>
           </div>

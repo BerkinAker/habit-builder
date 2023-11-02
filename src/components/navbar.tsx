@@ -17,8 +17,7 @@ export default async function Navbar() {
             HabitBuilder
           </Link>
 
-          {/* <FrontPageMobileNav isAuth={ } /> */}
-          <div className="hidden sm:flex items-center space-x-4">
+          <div className="flex items-center space-x-4">
             {!user ? (
               <>
                 <Link
