@@ -4,6 +4,11 @@ export const dashboardConfig: DashboardConfig = {
   mainNav: [
     {
       title: "Resources",
+      href: "/habits",
+      disabled: false,
+    },
+    {
+      title: "Resources",
       href: "/docs",
       disabled: true,
     },
